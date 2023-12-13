@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 base_url = "https://your-domain.com"
 
 
-def all_pages(base_url):
+def domain_scrape(base_url):
   print(f"scrapping all urls for: {base_url}")
   response = requests.get(base_url)
   unique_urls = {base_url}
@@ -32,7 +32,7 @@ def all_pages(base_url):
 VALID_TAGS = ['p']
 
 
-def get_text(url):
+def page_scrape(url):
   print(f"scrapping: {url}")
   page = requests.get(url)
   soup = BeautifulSoup(page.content, "html.parser")
@@ -55,9 +55,9 @@ def get_text(url):
   return lattex_out
 
 
-all_urls = all_pages(base_url)
+all_urls = domain_scrape(base_url)
 with open("output.txt", "w") as f:
   for url in all_urls:
-    f.write(get_text(url))
+    f.write(page_scrape(url))
     f.write("-----------\n")
   print("Entire Domain Scrapped.")
