@@ -18,9 +18,8 @@ def domain_scrape(base_url):
         url = link["href"]
       except:
         continue
-      if url[0] == "/" and "#" not in url:
-        absolute_url = base_url + url
-        unique_urls.add(absolute_url)
+      absolute_url = base_url + url
+      unique_urls.add(absolute_url)
 
     unvisited_url = (unique_urls - visited_urls).pop()
     visited_urls.add(unvisited_url)
