@@ -2,10 +2,11 @@ import requests
 from bs4 import BeautifulSoup
 
 base_url = "https://your-domain.com"
+VALID_TAGS = ['p']
 
 
 def domain_scrape(base_url):
-  print(f"scrapping all urls for: {base_url}")
+  print(f"scrapping for all urls: {base_url}")
   response = requests.get(base_url)
   unique_urls = {base_url}
   visited_urls = set()
@@ -29,9 +30,6 @@ def domain_scrape(base_url):
   return unique_urls
 
 
-VALID_TAGS = ['p']
-
-
 def page_scrape(url):
   print(f"scrapping: {url}")
   page = requests.get(url)
@@ -40,7 +38,7 @@ def page_scrape(url):
   lattex_out = ""
   indent_count = 1
   for data in soup.find_all(VALID_TAGS):
-    p = data.get_text().replace("\\(", "$").replace("\\)", "$")
+    p = data.get_text()
     for c in p:
       if ord(c) > 10:
         lattex_out += c
@@ -59,5 +57,5 @@ all_urls = domain_scrape(base_url)
 with open("output.txt", "w") as f:
   for url in all_urls:
     f.write(page_scrape(url))
-    f.write("-----------\n")
+    f.write("[NEW PAGE]\n")
   print("Entire Domain Scrapped.")
